@@ -7,7 +7,12 @@
     "test:ui": "npm --prefix qa-digital-bank-lab run test:ui",
     "test:api": "npm --prefix qa-digital-bank-lab run test:api",
     "test:perf": "npm --prefix qa-digital-bank-lab run test:perf",
+    "quality:gate": "npm --prefix qa-digital-bank-lab run quality:gate",
     "report": "npm --prefix qa-digital-bank-lab run report",
+    "report:monocart": "npm --prefix qa-digital-bank-lab run report:monocart",
+    "report:dashboard": "npm --prefix qa-digital-bank-lab run report:dashboard",
+    "report:pro": "npm --prefix qa-digital-bank-lab run report:pro",
+    "ci:quality": "npm --prefix qa-digital-bank-lab run ci:quality",
     "ci:local": "npm --prefix qa-digital-bank-lab ci && npm --prefix qa-digital-bank-lab test",
     "docker:up": "docker compose up --build -d",
     "docker:down": "docker compose down"

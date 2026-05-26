@@ -1,13 +1,15 @@
-import { expect, Page } from '@playwright/test';
+const { expect } = require('@playwright/test');
 
-export class LoginPage {
-  constructor(private readonly page: Page) {}
+class LoginPage {
+  constructor(page) {
+    this.page = page;
+  }
 
   async goto() {
     await this.page.goto('/');
   }
 
-  async login(email: string, password: string) {
+  async login(email, password) {
     await this.page.getByLabel('E-mail').fill(email);
     await this.page.getByLabel('Senha').fill(password);
     await this.page.getByRole('button', { name: 'Entrar na conta' }).click();
@@ -18,7 +20,9 @@ export class LoginPage {
     await expect(this.page.getByRole('heading', { name: 'Bem-vindo de volta' })).toBeVisible();
   }
 
-  async expectLoginError(message: string) {
+  async expectLoginError(message) {
     await expect(this.page.locator('#message')).toContainText(message);
   }
 }
+
+module.exports = { LoginPage };

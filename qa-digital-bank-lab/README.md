@@ -38,7 +38,7 @@ qa-digital-bank-lab/
 │   └── public/
 ├── k6/
 ├── zap/
-├── playwright.config.ts
+├── playwright.config.js
 ├── package.json
 └── README.md
 ```
@@ -69,18 +69,18 @@ qa-digital-bank-lab/
 - Navegação por teclado
 - Verificação automatizada com axe-core
 
-## Banking Risk Scenarios Covered
+## Cenários de risco bancário cobertos
 
-- **Account Takeover Risk**: brute force lockout (`429`) e credenciais inválidas.
-- **Authorization Bypass Risk**: validação rigorosa de token (`401`).
-- **Fraud / Balance Integrity Risk**: bloqueio de saldo insuficiente e valores inválidos.
-- **Race Condition Risk (Double Spending)**: lock por conta de origem para impedir débito duplicado concorrente.
-- **Operational Risk under Load**: testes de concorrência e monitoramento de latência.
-- **Customer Experience / Compliance Risk**: checks básicos de WCAG e uso por teclado.
+- **Risco de tomada de conta**: bloqueio por brute force (`429`) e credenciais inválidas.
+- **Risco de bypass de autorização**: validação rigorosa de token (`401`).
+- **Risco de fraude / integridade de saldo**: bloqueio de saldo insuficiente e valores inválidos.
+- **Risco de condição de corrida (double spending)**: lock por conta de origem para impedir débito duplicado concorrente.
+- **Risco operacional sob carga**: testes de concorrência e monitoramento de latência.
+- **Risco de experiência do cliente / conformidade**: checks básicos de WCAG e uso por teclado.
 
 ## 🛠️ Ferramentas
 
-- Playwright + TypeScript
+- Playwright + JavaScript
 - Node.js (mock server)
 - K6 (performance)
 - OWASP ZAP (security baseline)
@@ -116,6 +116,24 @@ npm run test:perf
 npm run report
 ```
 
+5. Quality Gate (thresholds que bloqueiam merge):
+
+```bash
+npm run quality:gate
+```
+
+6. Dashboard executivo com baseline comparativa (histórico):
+
+```bash
+npm run report:pro
+```
+
+Arquivos chave:
+
+- `quality-gate.config.json` (regras do gate)
+- `qa-report/history/metrics-history.json` (tendência por build)
+- `qa-report/quality-gate.json` (resultado do gate da execução)
+
 ## 🔐 OWASP ZAP (baseline)
 
 Exemplo com Docker (alvo local):
@@ -136,6 +154,9 @@ Este repositório já inclui um baseline enterprise com:
 
 - Pipeline no GitHub Actions para execução automatizada da suíte
 - Upload de artefatos de execução (`playwright-report` e `test-results`)
+- **Quality Gate formal** com thresholds (falha do pipeline bloqueia PR)
+- **Tendência histórica por build** com baseline comparativa no dashboard
+- Publicação automática de relatórios via **GitHub Pages**
 - Containerização do mock bank com Docker
 
 Arquivos principais:

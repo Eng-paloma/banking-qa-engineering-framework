@@ -1,0 +1,109 @@
+---
+# ZAP Automation Framework — Fake Bank API
+# Documentação: https://www.zaproxy.org/docs/automate/automation-framework/
+#
+# Execução via run-zap.ps1 ou diretamente:
+#   docker run --rm -v ${PWD}/zap:/zap/wrk/:rw \
+#     -t ghcr.io/zaproxy/zaproxy:stable \
+#     zap.sh -cmd -autorun /zap/wrk/automation.yaml
+
+env:
+  contexts:
+    - name: "FakeBank API"
+      urls:
+        - "http://host.docker.internal:3000"
+      includePaths:
+        - "http://host.docker.internal:3000/api/.*"
+      excludePaths:
+        - "http://host.docker.internal:3000/api/reset"
+      authentication:
+        method: "json"
+        parameters:
+          loginPageUrl: "http://host.docker.internal:3000/api/auth/login"
+          loginRequestData: '{"email":"alice@fakebank.com","password":"Bank@123"}'
+          usernameParameter: "email"
+          passwordParameter: "password"
+        verification:
+          method: "response"
+          loggedInRegex: '"token"'
+          loggedOutRegex: '"error"'
+      sessionManagement:
+        method: "headers"
+        parameters:
+          headerName: "Authorization"
+          headerValue: "Bearer {%token%}"
+      users:
+        - name: "alice"
+          credentials:
+            username: "alice@fakebank.com"
+            password: "Bank@123"
+
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+
+jobs:
+  # ── 1. Spider passivo ──────────────────────────────────────────────────────
+  - type: spider
+    name: "Spider API"
+    parameters:
+      context: "FakeBank API"
+      user: "alice"
+      maxDuration: 2          # minutos
+      maxDepth: 5
+      acceptCookies: false
+
+  # ── 2. Ajax Spider (para rotas dinâmicas do dashboard) ────────────────────
+  - type: spiderAjax
+    name: "Ajax Spider Dashboard"
+    parameters:
+      context: "FakeBank API"
+      url: "http://host.docker.internal:3000"
+      maxDuration: 2
+
+  # ── 3. Scan passivo — sem enviar requisições extras ───────────────────────
+  - type: passiveScan-wait
+    name: "Aguardar scan passivo"
+    parameters:
+      maxDuration: 5
+
+  # ── 4. Scan ativo — testa injeções, XSS, etc. ─────────────────────────────
+  - type: activeScan
+    name: "Scan Ativo API"
+    parameters:
+      context: "FakeBank API"
+      user: "alice"
+      policy: "API-Scan-Policy"
+
+  # ── 5. Relatórios ─────────────────────────────────────────────────────────
+  - type: report
+    name: "Relatório HTML"
+    parameters:
+      template: "traditional-html-plus"
+      reportDir: "/zap/wrk/reports"
+      reportFile: "zap-report"
+      reportTitle: "FakeBank Security Report"
+      reportDescription: "Baseline OWASP ZAP scan — API + Dashboard"
+      displayReport: false
+
+  - type: report
+    name: "Relatório JSON"
+    parameters:
+      template: "traditional-json-plus"
+      reportDir: "/zap/wrk/reports"
+      reportFile: "zap-report"
+
+  # ── 6. Alertas que devem quebrar o pipeline ────────────────────────────────
+  - type: alertFilter
+    name: "Filtros de alerta"
+    parameters:
+      deleteGlobalAlerts: false
+    rules:
+      - ruleId: 10038          # CSP ausente — aviso, não falha
+        newRisk: "Informational"
+
+  - type: exitStatus
+    name: "Falha se risco >= Alto"
+    parameters:
+      errorLevel: "High"       # High ou Critical quebra o pipeline

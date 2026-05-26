@@ -11,9 +11,40 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fake-bank-secret';
 const LOCKOUT_THRESHOLD = 3;
 const LOCKOUT_MS = 60_000;
 
+// ---------------------------------------------------------------------------
+// Chaos Mode — simula instabilidade de rede/serviço
+// Ativado via CHAOS_MODE=true ou POST /api/chaos { "enabled": true }
+// ---------------------------------------------------------------------------
+const chaos = {
+  enabled: process.env.CHAOS_MODE === 'true',
+  errorRate: Number(process.env.CHAOS_ERROR_RATE || 0.3),   // 30% de 503
+  slowRate:  Number(process.env.CHAOS_SLOW_RATE  || 0.2),   // 20% de req lentas
+  slowMs:    Number(process.env.CHAOS_SLOW_MS    || 2000)   // delay extra em ms
+};
+
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
+
+// ---------------------------------------------------------------------------
+// Chaos middleware — aplicado apenas em rotas /api/* (exceto /api/reset e /api/chaos)
+// ---------------------------------------------------------------------------
+app.use('/api', (req, res, next) => {
+  if (!chaos.enabled) return next();
+  if (['/api/reset', '/api/chaos'].includes(req.path)) return next();
+
+  // Slow response
+  if (Math.random() < chaos.slowRate) {
+    return sleep(chaos.slowMs).then(() => next());
+  }
+
+  // Random 503
+  if (Math.random() < chaos.errorRate) {
+    return res.status(503).json({ error: 'Service temporarily unavailable (chaos mode)' });
+  }
+
+  next();
+});
 
 const baseState = {
   users: {
@@ -83,6 +114,28 @@ app.get('/health', (_req, res) => {
 app.post('/api/reset', (_req, res) => {
   resetState();
   res.status(200).json({ message: 'State reset' });
+});
+
+// Toggle chaos mode em runtime — útil para testes de resiliência
+app.post('/api/chaos', (req, res) => {
+  const { enabled, errorRate, slowRate, slowMs } = req.body || {};
+  if (typeof enabled === 'boolean') chaos.enabled = enabled;
+  if (typeof errorRate === 'number') chaos.errorRate = errorRate;
+  if (typeof slowRate  === 'number') chaos.slowRate  = slowRate;
+  if (typeof slowMs    === 'number') chaos.slowMs    = slowMs;
+  res.status(200).json({ chaos });
+});
+
+// Diagnóstico do estado interno — útil para debugging de testes
+app.get('/api/diagnostics', (_req, res) => {
+  res.status(200).json({
+    chaos,
+    accounts: Object.fromEntries(
+      Object.entries(state.accounts).map(([id, acc]) => [id, { balance: acc.balance }])
+    ),
+    transactionsCount: state.transactions.length,
+    lockedAccounts: [...state.accountLocks]
+  });
 });
 
 app.post('/api/auth/login', async (req, res) => {

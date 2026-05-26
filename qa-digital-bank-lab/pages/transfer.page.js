@@ -1,9 +1,11 @@
-import { expect, Page } from '@playwright/test';
+const { expect } = require('@playwright/test');
 
-export class TransferPage {
-  constructor(private readonly page: Page) {}
+class TransferPage {
+  constructor(page) {
+    this.page = page;
+  }
 
-  async transfer(toAccount: string, amount: number) {
+  async transfer(toAccount, amount) {
     await this.page.getByLabel('Conta destino').fill(toAccount);
     await this.page.getByLabel('Valor (R$)').fill(String(amount));
     await this.page.getByRole('button', { name: 'Transferir agora' }).click();
@@ -13,7 +15,9 @@ export class TransferPage {
     await expect(this.page.locator('#transfer-message')).toContainText('Transferência realizada com sucesso');
   }
 
-  async expectError(message: string) {
+  async expectError(message) {
     await expect(this.page.locator('#transfer-message')).toContainText(message);
   }
 }
+
+module.exports = { TransferPage };

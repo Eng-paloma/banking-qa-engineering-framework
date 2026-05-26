@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-05-26T23:30:12.531Z",
+  "gate": "passed",
+  "baselineExists": false,
+  "metrics": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "retried": 0,
+    "passRate": 100,
+    "p95DurationMs": 2679,
+    "totalDurationMs": 18163,
+    "durationIncreasePct": 0,
+    "passRateDropPct": 0
+  },
+  "checks": [
+    {
+      "rule": "maxFailedTests",
+      "ok": true,
+      "actual": 0,
+      "expected": "<= 0"
+    },
+    {
+      "rule": "minPassRate",
+      "ok": true,
+      "actual": 100,
+      "expected": ">= 100"
+    },
+    {
+      "rule": "maxP95DurationMs",
+      "ok": true,
+      "actual": 2679,
+      "expected": "<= 5000"
+    },
+    {
+      "rule": "maxRetriedTests",
+      "ok": true,
+      "actual": 0,
+      "expected": "<= 2"
+    }
+  ]
+}

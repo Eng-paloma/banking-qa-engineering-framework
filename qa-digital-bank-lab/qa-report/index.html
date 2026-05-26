@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FakeBank QA - Relatório Executivo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111831;
+      --panel-soft: #1a2549;
+      --text: #e7ecff;
+      --muted: #9aa6d1;
+      --ok: #24c58a;
+      --err: #ff5e7e;
+      --warn: #f9c74f;
+      --acc: #63a4ff;
+      --border: #2a3767;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top right, #1d2a58 0%, var(--bg) 40%);
+      color: var(--text);
+    }
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 26px; }
+    .header {
+      display: flex; justify-content: space-between; gap: 20px; align-items: center;
+      margin-bottom: 18px;
+    }
+    .title h1 { margin: 0; font-size: 28px; }
+    .title p { margin: 6px 0 0; color: var(--muted); }
+
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      background: linear-gradient(135deg, #3a4fd6 0%, #5b7cff 100%);
+      color: #fff; border: 0; padding: 10px 14px; border-radius: 10px;
+      text-decoration: none; font-weight: 600; box-shadow: var(--shadow);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .badge.ok { color: var(--ok); border-color: rgba(36, 197, 138, .4); }
+    .badge.err { color: var(--err); border-color: rgba(255, 94, 126, .4); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      margin: 14px 0 20px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel-soft) 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+    .card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .6px; }
+    .card .value { font-size: 22px; margin-top: 4px; font-weight: 700; }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .panel {
+      background: rgba(17, 24, 49, .9);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .panel h3 { margin: 0 0 12px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #26345f; font-size: 13px; }
+    th { color: var(--muted); font-weight: 600; }
+
+    .status { padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .s-passed { background: rgba(36, 197, 138, .2); color: var(--ok); }
+    .s-failed { background: rgba(255, 94, 126, .2); color: var(--err); }
+    .s-skipped { background: rgba(249, 199, 79, .2); color: var(--warn); }
+    .s-unknown { background: rgba(140, 140, 170, .2); color: #d9d9f8; }
+
+    .toolbar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .filter { background: #1f2b53; border: 1px solid #30457f; color: #d6e1ff; padding: 8px 10px; border-radius: 10px; cursor: pointer; }
+    .filter.active { border-color: #5b7cff; background: #24356d; }
+
+    .search {
+      width: 100%; border: 1px solid #30457f; border-radius: 10px; padding: 10px;
+      background: #0f1732; color: #fff; margin-bottom: 10px;
+    }
+
+    .footer { color: var(--muted); margin-top: 14px; font-size: 12px; }
+
+    @media (max-width: 1180px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .content { grid-template-columns: 1fr; }
+      .header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="title">
+        <h1>FakeBank QA · Relatório Executivo</h1>
+        <p>Visão profissional e interativa das execuções · Gerado em 26/05/2026, 20:30:33</p>
+      </div>
+      <div class="actions">
+        <span class="badge ok">Quality Gate: PASS</span>
+        <a class="btn" href="../playwright-report/index.html" target="_blank">Playwright HTML</a>
+        <a class="btn" href="../monocart-report/index.html" target="_blank">Monocart</a>
+        <a class="btn" href="../playwright-report/results.json" target="_blank">Raw JSON</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><div class="label">Total</div><div class="value">18</div></div>
+      <div class="card"><div class="label">Passed</div><div class="value" style="color:var(--ok)">18</div></div>
+      <div class="card"><div class="label">Failed</div><div class="value" style="color:var(--err)">0</div></div>
+      <div class="card"><div class="label">Success Rate</div><div class="value">100.0%</div></div>
+      <div class="card"><div class="label">Tempo Total</div><div class="value">18.16s</div></div>
+      <div class="card"><div class="label">Δ Pass Rate vs build anterior</div><div class="value" style="color:var(--ok)">+0.0%</div></div>
+      <div class="card"><div class="label">Δ Duração vs build anterior</div><div class="value" style="color:var(--ok)">+0.0%</div></div>
+    </div>
+
+    <div class="content">
+      <div class="panel">
+        <h3>Status Geral</h3>
+        <canvas id="statusChart" height="85"></canvas>
+      </div>
+      <div class="panel">
+        <h3>Suites mais demoradas</h3>
+        <canvas id="suiteChart" height="170"></canvas>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px;">
+      <h3>Tendência histórica (últimos builds)</h3>
+      <canvas id="trendChart" height="110"></canvas>
+    </div>
+
+    <div class="panel" style="margin-bottom:14px;">
+      <h3>Top 8 testes mais lentos</h3>
+      <table>
+        <thead><tr><th>Teste</th><th>Suite</th><th>Status</th><th>Duração</th></tr></thead>
+        <tbody>
+          <tr><td>Dado tela de login / Quando escanear a11y / Então sem violações críticas</td><td>accessibility\login.accessibility.spec.js › Acessibilidade - Login WCAG básico</td><td><span class="status s-passed">passed</span></td><td>2.68s</td></tr><tr><td>Dado usuário logado / Quando transferir R$100 / Então saldo é atualizado</td><td>ui\transfer.ui.spec.js › UI - Transferências</td><td><span class="status s-passed">passed</span></td><td>2.29s</td></tr><tr><td>Dado saldo insuficiente / Quando tentar transferir R$9999 / Então exibe erro</td><td>ui\transfer.ui.spec.js › UI - Transferências</td><td><span class="status s-passed">passed</span></td><td>2.24s</td></tr><tr><td>Dado usuário válido / Quando fizer login / Então vê boas-vindas</td><td>ui\login.ui.spec.js › UI - Login</td><td><span class="status s-passed">passed</span></td><td>1.96s</td></tr><tr><td>Dado tela de login / Quando verificar campos / Então labels e nomes acessíveis visíveis</td><td>accessibility\login.accessibility.spec.js › Acessibilidade - Login WCAG básico</td><td><span class="status s-passed">passed</span></td><td>1.91s</td></tr><tr><td>Dado senha inválida / Quando fizer login / Então vê mensagem de erro</td><td>ui\login.ui.spec.js › UI - Login</td><td><span class="status s-passed">passed</span></td><td>1.80s</td></tr><tr><td>Dado tela de login / Quando navegar por Tab / Então foco percorre email, senha e botão</td><td>accessibility\login.accessibility.spec.js › Acessibilidade - Login WCAG básico</td><td><span class="status s-passed">passed</span></td><td>1.53s</td></tr><tr><td>Dado saldo inicial / Quando realizar duas transferências / Então saldo reflete total debitado</td><td>api\contract.api.spec.js › API - Contrato e consistência</td><td><span class="status s-passed">passed</span></td><td>928ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h3>Todos os testes</h3>
+      <input id="search" class="search" placeholder="Filtrar por teste ou suite..." />
+      <div class="toolbar">
+        <button class="filter active" data-status="all">Todos</button>
+        <button class="filter" data-status="passed">Passed</button>
+        <button class="filter" data-status="failed">Failed</button>
+        <button class="filter" data-status="skipped">Skipped</button>
+      </div>
+      <table id="testsTable">
+        <thead><tr><th>Teste</th><th>Suite</th><th>Projeto</th><th>Status</th><th>Retries</th><th>Duração</th></tr></thead>
+        <tbody>
+          <tr data-status="passed"><td title="">Dado tela de login / Quando verificar campos / Então labels e nomes acessíveis visíveis</td><td>accessibility\login.accessibility.spec.js › Acessibilidade - Login WCAG básico</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>1.91s</td></tr><tr data-status="passed"><td title="">Dado tela de login / Quando navegar por Tab / Então foco percorre email, senha e botão</td><td>accessibility\login.accessibility.spec.js › Acessibilidade - Login WCAG básico</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>1.53s</td></tr><tr data-status="passed"><td title="">Dado tela de login / Quando escanear a11y / Então sem violações críticas</td><td>accessibility\login.accessibility.spec.js › Acessibilidade - Login WCAG básico</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>2.68s</td></tr><tr data-status="passed"><td title="">Dado conta consultada / Quando verificar resposta / Então schema é válido</td><td>api\contract.api.spec.js › API - Contrato e consistência</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>356ms</td></tr><tr data-status="passed"><td title="">Dado saldo inicial / Quando realizar duas transferências / Então saldo reflete total debitado</td><td>api\contract.api.spec.js › API - Contrato e consistência</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>928ms</td></tr><tr data-status="passed"><td title="">Dado token válido / Quando transferir R$100 / Então status 201 e saldo atualizado</td><td>api\transfer.api.spec.js › API - Regras bancárias</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>569ms</td></tr><tr data-status="passed"><td title="">Dado saldo insuficiente / Quando transferir R$5000 / Então status 409</td><td>api\transfer.api.spec.js › API - Regras bancárias</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>297ms</td></tr><tr data-status="passed"><td title="">Dado valor negativo / Quando transferir R$-10 / Então status 422</td><td>api\transfer.api.spec.js › API - Regras bancárias</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>166ms</td></tr><tr data-status="passed"><td title="">Dado duas requisições simultâneas / Quando ambas transferirem R$800 / Então apenas uma é aprovada</td><td>api\transfer.api.spec.js › API - Regras bancárias</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>402ms</td></tr><tr data-status="passed"><td title="">Dado uma transferência / Quando medida a latência / Então responde em menos de 1000ms</td><td>performance\latency.performance.spec.js › Performance - Latência da API</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>326ms</td></tr><tr data-status="passed"><td title="">Dado payload com SQL injection / Quando tentar autenticar / Então recebe 401</td><td>security\security.spec.js › Segurança - Alinhado ao OWASP</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>157ms</td></tr><tr data-status="passed"><td title="">Dado token inválido / Quando consultar conta / Então recebe 401</td><td>security\security.spec.js › Segurança - Alinhado ao OWASP</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>10ms</td></tr><tr data-status="passed"><td title="">Dado três tentativas falhas / Quando tentar novamente / Então recebe 429 com retryAfter</td><td>security\security.spec.js › Segurança - Alinhado ao OWASP</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>397ms</td></tr><tr data-status="passed"><td title="">Dado token expirado / Quando tentar transferir / Então recebe 401</td><td>security\security.spec.js › Segurança - Alinhado ao OWASP</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>137ms</td></tr><tr data-status="passed"><td title="">Dado usuário válido / Quando fizer login / Então vê boas-vindas</td><td>ui\login.ui.spec.js › UI - Login</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>1.96s</td></tr><tr data-status="passed"><td title="">Dado senha inválida / Quando fizer login / Então vê mensagem de erro</td><td>ui\login.ui.spec.js › UI - Login</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>1.80s</td></tr><tr data-status="passed"><td title="">Dado usuário logado / Quando transferir R$100 / Então saldo é atualizado</td><td>ui\transfer.ui.spec.js › UI - Transferências</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>2.29s</td></tr><tr data-status="passed"><td title="">Dado saldo insuficiente / Quando tentar transferir R$9999 / Então exibe erro</td><td>ui\transfer.ui.spec.js › UI - Transferências</td><td>chrome</td><td><span class="status s-passed">passed</span></td><td>0</td><td>2.24s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">Dica: rode <strong>npm test</strong>, depois <strong>npm run quality:gate</strong> e <strong>npm run report:pro</strong>.</div>
+  </div>
+
+  <script>
+    const statusCtx = document.getElementById('statusChart');
+    new Chart(statusCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Passed', 'Failed', 'Skipped', 'Unknown'],
+        datasets: [{
+          data: [18, 0, 0, 0],
+          backgroundColor: ['#24c58a', '#ff5e7e', '#f9c74f', '#8a8ab1']
+        }]
+      },
+      options: { plugins: { legend: { labels: { color: '#e7ecff' } } } }
+    });
+
+    const suiteCtx = document.getElementById('suiteChart');
+    new Chart(suiteCtx, {
+      type: 'bar',
+      data: {
+        labels: ["accessibility\\login.accessibility.spec.js › Acessibilidade - Login WCAG básico","ui\\transfer.ui.spec.js › UI - Transferências","ui\\login.ui.spec.js › UI - Login","api\\transfer.api.spec.js › API - Regras bancárias","api\\contract.api.spec.js › API - Contrato e consistência","security\\security.spec.js › Segurança - Alinhado ao OWASP","performance\\latency.performance.spec.js › Performance - Latência da API"],
+        datasets: [{
+          label: 'Duração (ms)',
+          data: [6122,4527,3769,1434,1284,701,326],
+          backgroundColor: '#63a4ff'
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        scales: {
+          x: { ticks: { color: '#dbe4ff' }, grid: { color: 'rgba(255,255,255,.08)' } },
+          y: { ticks: { color: '#dbe4ff' }, grid: { color: 'rgba(255,255,255,.08)' } }
+        },
+        plugins: { legend: { labels: { color: '#e7ecff' } } }
+      }
+    });
+
+    const trendCtx = document.getElementById('trendChart');
+    new Chart(trendCtx, {
+      type: 'line',
+      data: {
+        labels: ["231752","233545"],
+        datasets: [
+          {
+            label: 'Pass Rate (%)',
+            data: [100,100],
+            borderColor: '#24c58a',
+            backgroundColor: 'rgba(36,197,138,.15)',
+            yAxisID: 'yPass',
+            tension: 0.3
+          },
+          {
+            label: 'Duração total (ms)',
+            data: [18163,18163],
+            borderColor: '#63a4ff',
+            backgroundColor: 'rgba(99,164,255,.15)',
+            yAxisID: 'yDuration',
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yPass: {
+            type: 'linear',
+            position: 'left',
+            min: 0,
+            max: 100,
+            ticks: { color: '#dbe4ff' },
+            grid: { color: 'rgba(255,255,255,.08)' }
+          },
+          yDuration: {
+            type: 'linear',
+            position: 'right',
+            ticks: { color: '#dbe4ff' },
+            grid: { display: false }
+          },
+          x: {
+            ticks: { color: '#dbe4ff' },
+            grid: { color: 'rgba(255,255,255,.08)' }
+          }
+        },
+        plugins: { legend: { labels: { color: '#e7ecff' } } }
+      }
+    });
+
+    const search = document.getElementById('search');
+    const rows = [...document.querySelectorAll('#testsTable tbody tr')];
+    const filters = [...document.querySelectorAll('.filter')];
+    let statusFilter = 'all';
+
+    function applyFilter() {
+      const q = search.value.toLowerCase().trim();
+      rows.forEach((r) => {
+        const statusOk = statusFilter === 'all' || r.dataset.status === statusFilter;
+        const textOk = r.textContent.toLowerCase().includes(q);
+        r.style.display = statusOk && textOk ? '' : 'none';
+      });
+    }
+
+    search.addEventListener('input', applyFilter);
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filters.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        statusFilter = btn.dataset.status;
+        applyFilter();
+      });
+    });
+  </script>
+</body>
+</html>

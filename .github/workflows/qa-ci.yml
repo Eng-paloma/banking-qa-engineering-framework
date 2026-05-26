@@ -6,9 +6,14 @@ on:
   pull_request:
     branches: [main, master, develop]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  playwright-tests:
-    name: Playwright (UI/API/Security/A11y)
+  qa-quality-gate:
+    name: QA Gate (Playwright + Thresholds)
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -34,7 +39,25 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run automated quality suite
-        run: npm test
+        run: npm run test:ci
+
+      - name: Enforce quality gate (blocks merge on fail)
+        run: npm run quality:gate
+
+      - name: Update historical build metrics
+        run: npm run quality:history
+
+      - name: Generate executive dashboard
+        run: node scripts/generate-report-dashboard.js
+
+      - name: Persist history on main/master/develop
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add qa-report/history/metrics-history.json
+          git diff --staged --quiet || git commit -m "ci: update quality history [skip ci]"
+          git push
 
       - name: Upload Playwright report
         if: always()
@@ -51,3 +74,62 @@ jobs:
           name: test-results
           path: qa-digital-bank-lab/test-results/
           retention-days: 14
+
+      - name: Upload executive dashboard artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report
+          path: |
+            qa-digital-bank-lab/qa-report/
+            qa-digital-bank-lab/monocart-report/
+            qa-digital-bank-lab/playwright-report/
+          retention-days: 30
+
+      - name: Prepare GitHub Pages content
+        if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master' || github.ref_name == 'develop')
+        run: |
+          rm -rf _site
+          mkdir -p _site
+          cp -r qa-report _site/qa-report
+          cp -r playwright-report _site/playwright-report
+          cp -r monocart-report _site/monocart-report
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>FakeBank QA Reports</title>
+            <style>
+              body { font-family: Segoe UI, Arial, sans-serif; margin: 40px; background:#0b1020; color:#e7ecff; }
+              a { display:block; margin:10px 0; color:#63a4ff; font-size:18px; }
+            </style>
+          </head>
+          <body>
+            <h1>FakeBank QA Reports</h1>
+            <a href="./qa-report/index.html">Executive Dashboard</a>
+            <a href="./monocart-report/index.html">Monocart Report</a>
+            <a href="./playwright-report/index.html">Playwright HTML Report</a>
+          </body>
+          </html>
+          HTML
+
+      - name: Upload pages artifact
+        if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master' || github.ref_name == 'develop')
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: qa-digital-bank-lab/_site
+
+  deploy-pages:
+    name: Deploy QA reports to GitHub Pages
+    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master' || github.ref_name == 'develop')
+    needs: qa-quality-gate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

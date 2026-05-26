@@ -1,0 +1,15 @@
+{
+  "thresholds": {
+    "maxFailedTests": 0,
+    "minPassRate": 100,
+    "maxP95DurationMs": 5000,
+    "maxRetriedTests": 2
+  },
+  "regression": {
+    "maxDurationIncreasePct": 25,
+    "maxPassRateDropPct": 2
+  },
+  "history": {
+    "maxEntries": 120
+  }
+}

@@ -6,15 +6,23 @@
   "type": "commonjs",
   "scripts": {
     "mock:start": "node mock/bank-server.js",
-    "test": "playwright test --project=chrome",
-    "test:headed": "playwright test --project=chrome --headed",
-    "test:ui": "playwright test tests/ui tests/accessibility --project=chrome",
-    "test:api": "playwright test tests/api tests/security tests/performance --project=chrome",
-    "test:security": "playwright test tests/security --project=chrome",
-    "test:accessibility": "playwright test tests/accessibility --project=chrome",
-    "test:perf": "k6 run k6/transfer-load.js",
-    "test:zap": "echo Run: docker run -t owasp/zap2docker-stable zap-baseline.py -t http://host.docker.internal:3000 -r zap-report.html",
-    "report": "playwright show-report"
+    "test": "playwright test -c playwright.config.js --project=chrome",
+    "test:headed": "playwright test -c playwright.config.js --project=chrome --headed",
+    "test:ui": "playwright test -c playwright.config.js tests/ui tests/accessibility --project=chrome",
+    "test:api": "playwright test -c playwright.config.js tests/api tests/security tests/performance --project=chrome",
+    "test:security": "playwright test -c playwright.config.js tests/security --project=chrome",
+    "test:accessibility": "playwright test -c playwright.config.js tests/accessibility --project=chrome",
+    "test:perf": "k6 run k6/transfer-load.js --out json=k6/results/summary.json",
+    "test:zap": "pwsh -File zap/run-zap.ps1",
+    "quality:gate": "node scripts/quality-gate.js",
+    "quality:history": "node scripts/update-build-history.js",
+    "report": "playwright show-report playwright-report",
+    "report:monocart": "node scripts/serve-dir.js monocart-report 9325",
+    "report:dashboard": "node scripts/serve-dir.js qa-report 9330",
+    "report:build-dashboard": "npm run quality:history && node scripts/generate-report-dashboard.js",
+    "report:pro": "npm run report:build-dashboard && npm run report:dashboard",
+    "test:ci": "playwright test -c playwright.config.js --project=chrome --reporter=list,html",
+    "ci:quality": "npm run test:ci && npm run quality:gate && npm run report:build-dashboard"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -26,10 +34,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "^1.54.1",
-    "@types/express": "^5.0.0",
-    "@types/jsonwebtoken": "^9.0.8",
-    "@types/node": "^22.15.21",
     "ajv": "^8.17.1",
-    "typescript": "^5.8.3"
+    "monocart-reporter": "^2.11.2"
   }
 }
