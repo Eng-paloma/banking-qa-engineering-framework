@@ -1,0 +1,15 @@
+{
+  "name": "banking-qa-engineering-framework-workspace",
+  "private": true,
+  "scripts": {
+    "test": "npm --prefix qa-digital-bank-lab test",
+    "test:headed": "npm --prefix qa-digital-bank-lab run test:headed",
+    "test:ui": "npm --prefix qa-digital-bank-lab run test:ui",
+    "test:api": "npm --prefix qa-digital-bank-lab run test:api",
+    "test:perf": "npm --prefix qa-digital-bank-lab run test:perf",
+    "report": "npm --prefix qa-digital-bank-lab run report",
+    "ci:local": "npm --prefix qa-digital-bank-lab ci && npm --prefix qa-digital-bank-lab test",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down"
+  }
+}

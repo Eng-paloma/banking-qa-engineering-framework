@@ -1,0 +1,53 @@
+<svg width="560" height="620" viewBox="0 0 560 620" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração do aplicativo Fake Bank">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="24" x2="536" y2="596" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A3FA8"/>
+      <stop offset="1" stop-color="#002776"/>
+    </linearGradient>
+    <linearGradient id="card" x1="170" y1="108" x2="390" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FBFF"/>
+      <stop offset="1" stop-color="#EAF2FF"/>
+    </linearGradient>
+    <filter id="shadow" x="118" y="58" width="324" height="506" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="8"/>
+      <feGaussianBlur stdDeviation="12"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.152941 0 0 0 0 0.462745 0 0 0 0.28 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_2"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_2" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="512" height="572" rx="36" fill="url(#bg)"/>
+
+  <circle cx="486" cy="86" r="52" fill="#FFDF00" fill-opacity="0.18"/>
+  <circle cx="74" cy="550" r="66" fill="#009C3B" fill-opacity="0.16"/>
+
+  <g filter="url(#shadow)">
+    <rect x="142" y="82" width="276" height="458" rx="30" fill="#0B1836"/>
+    <rect x="152" y="94" width="256" height="434" rx="24" fill="url(#card)"/>
+    <rect x="246" y="102" width="68" height="8" rx="4" fill="#CBD5E1"/>
+
+    <rect x="172" y="128" width="216" height="124" rx="20" fill="#002776"/>
+    <text x="190" y="156" fill="#DDE8FF" font-family="Inter, Arial" font-size="13">Saldo disponível</text>
+    <text x="190" y="192" fill="#FFFFFF" font-family="Inter, Arial" font-size="30" font-weight="700">R$ 1.200,00</text>
+    <rect x="190" y="206" width="70" height="6" rx="3" fill="#FFDF00" fill-opacity="0.85"/>
+
+    <rect x="172" y="274" width="100" height="86" rx="16" fill="#FFFFFF"/>
+    <rect x="282" y="274" width="106" height="86" rx="16" fill="#FFFFFF"/>
+    <text x="184" y="304" fill="#64748B" font-family="Inter, Arial" font-size="11">Pix</text>
+    <text x="185" y="333" fill="#002776" font-family="Inter, Arial" font-size="15" font-weight="700">Transferir</text>
+    <text x="295" y="304" fill="#64748B" font-family="Inter, Arial" font-size="11">Cartão</text>
+    <text x="295" y="333" fill="#002776" font-family="Inter, Arial" font-size="15" font-weight="700">Fatura</text>
+
+    <rect x="172" y="380" width="216" height="20" rx="10" fill="#E2E8F0"/>
+    <rect x="172" y="406" width="216" height="20" rx="10" fill="#E2E8F0"/>
+    <rect x="172" y="432" width="146" height="20" rx="10" fill="#E2E8F0"/>
+
+    <rect x="172" y="466" width="216" height="44" rx="14" fill="#009C3B"/>
+    <text x="228" y="494" fill="#FFFFFF" font-family="Inter, Arial" font-size="16" font-weight="700">Entrar</text>
+  </g>
+
+</svg>

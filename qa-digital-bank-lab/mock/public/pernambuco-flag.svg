@@ -1,0 +1,36 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bandeira de Pernambuco estilizada">
+  <defs>
+    <linearGradient id="blueSky" x1="0" y1="0" x2="640" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1232a8"/>
+      <stop offset="1" stop-color="#1b46d4"/>
+    </linearGradient>
+    <filter id="shadow" x="-40" y="-40" width="720" height="440" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="8"/>
+      <feGaussianBlur stdDeviation="10"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.02 0 0 0 0 0.06 0 0 0 0 0.2 0 0 0 0.26 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <path d="M12 28C130 8 256 42 374 26C464 14 546 18 628 30V318H12V28Z" fill="url(#blueSky)"/>
+    <path d="M12 210C148 194 256 230 378 214C470 202 552 206 628 216V318H12V210Z" fill="#F8FAFC"/>
+
+    <path d="M86 162C178 90 314 82 552 164" stroke="#ED1C24" stroke-width="16" stroke-linecap="round"/>
+    <path d="M96 162C188 94 320 88 544 164" stroke="#F97316" stroke-width="13" stroke-linecap="round"/>
+    <path d="M108 162C198 102 328 98 534 164" stroke="#FACC15" stroke-width="11" stroke-linecap="round"/>
+    <path d="M120 162C208 110 336 108 522 164" stroke="#22C55E" stroke-width="10" stroke-linecap="round"/>
+
+    <circle cx="320" cy="130" r="30" fill="#FFDF00"/>
+    <path d="M320 90L327 112L349 107L335 124L352 138L330 140L333 162L320 148L307 162L310 140L288 138L305 124L291 107L313 112L320 90Z" fill="#EAB308"/>
+
+    <path d="M320 206L334 252H350L322 284H318L290 252H306L320 206Z" fill="#E11D48"/>
+    <rect x="314" y="252" width="12" height="42" fill="#E11D48"/>
+
+    <circle cx="320" cy="52" r="8" fill="#FDE047"/>
+  </g>
+</svg>

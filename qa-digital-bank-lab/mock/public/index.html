@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake Bank | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="login-wrapper">
+
+      <!-- Hero panel -->
+      <aside class="login-hero" aria-hidden="true">
+        <span class="hero-badge">🇧🇷 Banco Digital Brasileiro</span>
+        <h1 class="hero-title">O banco que<br />trabalha por <span>você</span></h1>
+        <p class="hero-sub">Transferências instantâneas, segurança máxima e acesso 24h onde você estiver.</p>
+        <ul class="hero-features">
+          <li>Transferências seguras em segundos</li>
+          <li>Proteção antifraude em tempo real</li>
+          <li>Zero tarifa de manutenção</li>
+          <li>Suporte 24 horas por dia</li>
+        </ul>
+        <figure class="hero-app-visual">
+          <img src="/fakebank-app-visual.svg" alt="Preview do app Fake Bank" />
+          <figcaption>App Fake Bank • experiência mobile premium</figcaption>
+        </figure>
+      </aside>
+
+      <!-- Form panel -->
+      <main class="login-form-area">
+        <section class="login-box login-box-horizontal" aria-label="Acesso à conta">
+          <div class="login-side-info" aria-hidden="true">
+            <div class="login-logo">
+              <div class="logo-mark" aria-hidden="true">F</div>
+              <span class="logo-name">Fake<span>Bank</span></span>
+            </div>
+            <h2 class="login-side-title">Sua conta, seu controle.</h2>
+            <p class="login-side-sub">Inspirado em bancos digitais modernos: simples, claro e confiável.</p>
+            <ul class="login-side-list">
+              <li>Pix 24h com segurança reforçada</li>
+              <li>Cartão internacional sem complicação</li>
+              <li>Crédito e investimentos no mesmo app</li>
+            </ul>
+            <div class="login-side-chip">Acesso seguro · Ambiente Mock</div>
+          </div>
+
+          <div class="login-form-shell">
+            <h2 class="login-heading">Bem-vindo de volta</h2>
+            <p class="login-sub">Acesse sua conta com segurança</p>
+
+            <form id="login-form" aria-label="Formulário de login" novalidate>
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="seu@email.com"
+                  required
+                  autocomplete="username"
+                />
+              </div>
+
+              <div class="field">
+                <label for="password">Senha</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                  required
+                  autocomplete="current-password"
+                />
+              </div>
+
+              <button id="login-button" class="btn btn-primary" type="submit">Entrar na conta</button>
+            </form>
+
+            <p id="message" class="message" aria-live="polite" role="alert"></p>
+
+            <p style="font-size:.78rem;color:#64748b;margin-top:24px;text-align:center;">
+              Ambiente de testes — Fake Bank © 2026
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/login.js"></script>
+    <script src="/app-preview.js"></script>
+  </body>
+</html>

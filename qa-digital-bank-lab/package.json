@@ -1,0 +1,35 @@
+{
+  "name": "qa-digital-bank-lab",
+  "version": "1.0.0",
+  "description": "Professional QA Engineering framework for a fake digital banking system",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "mock:start": "node mock/bank-server.js",
+    "test": "playwright test --project=chrome",
+    "test:headed": "playwright test --project=chrome --headed",
+    "test:ui": "playwright test tests/ui tests/accessibility --project=chrome",
+    "test:api": "playwright test tests/api tests/security tests/performance --project=chrome",
+    "test:security": "playwright test tests/security --project=chrome",
+    "test:accessibility": "playwright test tests/accessibility --project=chrome",
+    "test:perf": "k6 run k6/transfer-load.js",
+    "test:zap": "echo Run: docker run -t owasp/zap2docker-stable zap-baseline.py -t http://host.docker.internal:3000 -r zap-report.html",
+    "report": "playwright show-report"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.54.1",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.15.21",
+    "ajv": "^8.17.1",
+    "typescript": "^5.8.3"
+  }
+}

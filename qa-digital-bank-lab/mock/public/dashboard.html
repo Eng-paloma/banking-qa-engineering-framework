@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake Bank | Painel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="dash-wrapper">
+
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Menu principal">
+        <div class="sidebar-logo">
+          <div class="logo-mark" aria-hidden="true">F</div>
+          <span class="logo-name">Fake<span>Bank</span></span>
+        </div>
+
+        <nav class="nav" role="navigation">
+          <button class="nav-item active" type="button">
+            <span class="nav-icon" aria-hidden="true">🏠</span> Início
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon" aria-hidden="true">💸</span> Transferências
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon" aria-hidden="true">📋</span> Extrato
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon" aria-hidden="true">🔒</span> Segurança
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button id="logout-button" class="nav-item" type="button">
+            <span class="nav-icon" aria-hidden="true">↩️</span> Sair
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="dash-main">
+
+        <!-- Topbar -->
+        <header class="topbar">
+          <span class="topbar-title">Painel da Conta</span>
+          <div class="topbar-actions" aria-label="Ações rápidas">
+            <button class="topbar-pill" type="button">Acessar conta</button>
+            <button class="topbar-pill topbar-pill-highlight" type="button">Abrir investimento</button>
+          </div>
+          <div class="topbar-user">
+            <div class="avatar" id="avatar-initials" aria-hidden="true">?</div>
+            <span id="welcome">Carregando...</span>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <div class="dash-content">
+
+          <!-- Balance card -->
+          <section aria-labelledby="balance-title">
+            <div class="balance-card">
+              <div>
+                <p id="balance-title" class="balance-label">Saldo disponível</p>
+                <p class="balance-amount">R$ <span id="balance">0,00</span></p>
+                <p class="balance-account" id="account-id">Conta — —</p>
+              </div>
+              <div class="fake-card" aria-label="Cartão virtual Fake Bank">
+                <span class="fake-card-chip" aria-hidden="true"></span>
+                <p class="fake-card-brand">Fake Bank</p>
+                <p class="fake-card-number">•••• 5588 1998 0426</p>
+                <div class="fake-card-footer">
+                  <span>BLACK</span>
+                  <span>VISA</span>
+                </div>
+              </div>
+              <div class="balance-flag" aria-hidden="true">
+                <div class="flag-stripe" style="width:56px;background:#009c3b"></div>
+                <div class="flag-stripe" style="width:40px;background:#ffdf00"></div>
+                <div class="flag-stripe" style="width:28px;background:#002776"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="quick-actions" aria-label="Atalhos bancários">
+            <button class="action-btn action-btn-pix" type="button">Pix</button>
+            <button class="action-btn action-btn-card" type="button">Cartão</button>
+            <button class="action-btn action-btn-loan" type="button">Consignado</button>
+            <button class="action-btn action-btn-loan" type="button">Empréstimos</button>
+            <button class="action-btn action-btn-consortium" type="button">Consórcios</button>
+          </section>
+
+          <section class="promo-grid" aria-label="Ofertas e propagandas">
+            <article class="promo-card promo-card-cdi">
+              <p class="promo-tag">Investimentos</p>
+              <h3>Rende 100% do CDI</h3>
+              <p>Ative a Conta Remunerada e faça seu saldo render automaticamente.</p>
+              <button type="button" class="promo-link">Quero investir</button>
+            </article>
+            <article class="promo-card promo-card-loan">
+              <p class="promo-tag">Crédito</p>
+              <h3>Empréstimo pessoal pré-aprovado</h3>
+              <p>Taxas especiais para clientes com bom histórico.</p>
+              <button type="button" class="promo-link">Simular crédito</button>
+            </article>
+            <article class="promo-card promo-card-pix">
+              <p class="promo-tag">Dia a dia</p>
+              <h3>Pix grátis ilimitado</h3>
+              <p>Transfira em segundos, com confirmação imediata e segurança reforçada.</p>
+              <button type="button" class="promo-link">Saiba mais</button>
+            </article>
+          </section>
+
+          <!-- Cards grid -->
+          <div class="cards-grid">
+
+            <!-- Transfer card -->
+            <section class="card" aria-labelledby="transfer-title">
+              <div class="card-header">
+                <h2 id="transfer-title" class="card-title">Nova Transferência</h2>
+                <div class="card-icon f-badge" aria-hidden="true">F</div>
+              </div>
+
+              <form id="transfer-form" aria-label="Formulário de transferência" novalidate>
+                <div class="transfer-fields">
+                  <div class="field">
+                    <label for="toAccount">Conta destino</label>
+                    <input
+                      id="toAccount"
+                      name="toAccount"
+                      type="text"
+                      placeholder="Ex: ACC-2002"
+                      required
+                    />
+                  </div>
+
+                  <div class="field">
+                    <label for="amount">Valor (R$)</label>
+                    <input
+                      id="amount"
+                      name="amount"
+                      type="number"
+                      placeholder="0,00"
+                      min="0.01"
+                      step="0.01"
+                      required
+                    />
+                  </div>
+
+                  <button id="transfer-button" class="btn btn-success" type="submit">Transferir agora</button>
+                </div>
+              </form>
+
+              <p id="transfer-message" class="message" aria-live="polite" role="alert"></p>
+            </section>
+
+            <!-- Transactions card -->
+            <section class="card" aria-labelledby="tx-title">
+              <div class="card-header">
+                <h2 id="tx-title" class="card-title">Últimas movimentações</h2>
+                <div class="card-icon blue" aria-hidden="true">📋</div>
+              </div>
+
+              <div class="tx-list" id="tx-list" role="presentation">
+                <p class="tx-empty">Carregando gráfico das movimentações...</p>
+              </div>
+            </section>
+
+            <section class="card app-showcase" aria-labelledby="app-title">
+              <div class="card-header">
+                <h2 id="app-title" class="card-title">FakeBank App</h2>
+                <div class="card-icon yellow" aria-hidden="true">📱</div>
+              </div>
+              <div class="app-banner">
+                <div>
+                  <strong>FakeBank Para Você</strong>
+                  <br />
+                  <span>Seu banco digital com mais praticidade no dia a dia.</span>
+                </div>
+              </div>
+              <p class="tx-date" style="margin-bottom:12px;">Experiência mobile com segurança bancária.</p>
+              <div class="app-showcase-grid">
+                <img src="/fakebank-app-visual.svg" alt="Preview do aplicativo Fake Bank" class="app-visual-card" />
+                <div class="app-cta">
+                  <img src="/qr-fakebank-app.svg" alt="QR ilustrativo do app Fake Bank" class="app-qr" />
+                  <p>Baixe a versão beta</p>
+                  <span class="badge badge-blue">EM BREVE</span>
+                </div>
+              </div>
+            </section>
+
+          </div><!-- /cards-grid -->
+        </div><!-- /dash-content -->
+      </div><!-- /dash-main -->
+    </div><!-- /dash-wrapper -->
+
+    <script src="/dashboard.js"></script>
+    <script src="/dashboard-interactions.js"></script>
+  </body>
+</html>
