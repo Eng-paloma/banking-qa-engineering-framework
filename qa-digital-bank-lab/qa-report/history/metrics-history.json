@@ -26,5 +26,19 @@
     "passRate": 100,
     "totalDurationMs": 18163,
     "p95DurationMs": 2679
+  },
+  {
+    "timestamp": "2026-05-27T00:03:05.028Z",
+    "buildId": "local-1779840185028",
+    "commit": "local",
+    "branch": "local",
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "retried": 0,
+    "passRate": 100,
+    "totalDurationMs": 13941,
+    "p95DurationMs": 1906
   }
 ]
